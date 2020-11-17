@@ -2,19 +2,42 @@
  * Code forked and modified from https://github.com/jamiewilson/form-to-google-sheets
  //--> 
 
-<form name="submit-to-google-sheet">
-  <input name="email" type="email" placeholder="Email" required>
-  <button type="submit">Send</button>
-</form>
-
-<script>
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbyoQu8ZIXru93vsOAXbDbBiNgvz3zsm6EBs-TSsNrrp9I1eCyU/exec'
-  const form = document.forms['submit-to-google-sheet']
-
-  form.addEventListener('submit', e => {
-    e.preventDefault()
-    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-      .then(response => console.log('Success!', response))
-      .catch(error => console.error('Error!', error.message))
-  })
-</script>
+ <html lang="en">
+   <head>
+     <title>Social Music</title>
+     <script src="./script.js"></script>
+   </head>
+   <body onload="selectVideos()">
+     <div style="width: 100%; overflow: hidden;">
+       <div id="leftVideo" style="width: 50%; float: left;"></div>
+       <div id="rightVideo" style="width: 50%; float: right;"></div>
+     </div>
+    
+     <hr>
+     <form name="submit-to-google-sheet">
+       <input name="left" type="hidden" id="leftInput">
+       <input name="right" type="hidden" id="rightInput">
+       <input name="human" type="hidden" id="humanInput">
+       <h3>Which of the two samples did you prefer?</h3>
+       <input type="radio" id="leftChoice" name="choice" value="left">
+       <label for="leftChoice">Left</label>
+       <input type="radio" id="rightChoice" name="choice" value="right">
+       <label for="rightChoice">Right</label>
+       <br>
+       <button type="submit">Submit selection</button>
+     </form>
+     
+     <script>
+       const scriptURL = 'https://script.google.com/macros/s/AKfycbyoQu8ZIXru93vsOAXbDbBiNgvz3zsm6EBs-TSsNrrp9I1eCyU/exec'
+       const form = document.forms['submit-to-google-sheet']
+     
+       form.addEventListener('submit', e => {
+         e.preventDefault()
+         fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+           .then(response => console.log('Success!', response))
+           .then(response => window.location.href = './thanks.html')
+           .catch(error => console.error('Error!', error.message))
+       })
+     </script>
+   </body>
+ </html>
